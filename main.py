@@ -2,13 +2,18 @@ from app.repository import UserRepository
 from app.models import User
 
 repo = UserRepository()
-print(repo.get_user_by_id(1))
-print(repo.get_user_by_id(999))
 
 
-# new_user = User(name="Gabriel", email="gabrielbergamini@email.com", password="11111", birth_date="2006-01-01")
 
-# repo.add_user(new_user)
+new_user = User(name="Bianca", email="bianca@email.com", password="222222", birth_date="2005-01-01")
+
+user = repo.get_user_by_id(3) 
+
+user.name = "Higor"
+user.email = "higor@email.com"
+
+repo.update_user(user)
+
 
 
 

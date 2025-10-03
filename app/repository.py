@@ -72,7 +72,28 @@ class UserRepository():
             return user
         
 
+    def update_user(self, user: User):
 
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        sql = """
+        UPDATE users
+        SET name = ?, email = ?, password = ?, birth_date = ?
+        WHERE id = ?
+        """
          
+        cursor.execute(sql, (user.name, user.email, user.password, user.birth_date, user.id))
+        updated_rows = cursor.rowcount
 
+        if updated_rows == 0:
+            conn.close()
+            return False
+        else:
+            conn.commit()
+            conn.close()
+            return True
+        
+        
+        
         
