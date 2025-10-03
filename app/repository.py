@@ -10,9 +10,9 @@ class UserRepository():
 
     def add_user(self, user: User):
         
-        conn = create_connection()
-        cursor = conn.cursor()
-
+        conn = create_connection() # returns a connection to the SQLite database
+        cursor = conn.cursor() # Cursor exec SQL commands
+   
         sql = """
         INSERT INTO users (name, email, password, birth_date)
         VALUES (?, ?, ?, ?)
@@ -27,3 +27,36 @@ class UserRepository():
             return False
         finally: 
             conn.close()
+
+        
+    def get_all_users(self):
+        users = []
+        conn = create_connection()
+        cursor = conn.cursor()
+        
+
+        sql = """
+        SELECT * FROM users
+        """
+        
+
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        
+        for row in rows:
+            user = User(id= row[0], name= row[1], email= row[2], password= row[3], birth_date= row[4])
+            users.append(user)
+
+        return users
+
+        
+
+
+
+            
+
+
+
+        
+
+        
