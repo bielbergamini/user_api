@@ -1,6 +1,7 @@
 import sqlite3
 from app.database import create_connection
 from app.models import User
+from typing import Optional
 
 
 class UserRepository():
@@ -50,13 +51,28 @@ class UserRepository():
         return users
 
         
+    
+                                            #(X or None)
+    def get_user_by_id(self, user_id: int) -> Optional[User]:
 
+        conn = create_connection()
+        cursor = conn.cursor()
 
-
+        sql = """
+        SELECT * FROM users WHERE id = ?
+        """
             
+        cursor.execute(sql, (user_id,))
+        row = cursor.fetchone()
 
-
-
+        if row is None:
+            return None
+        else:
+            user = User(id= row[0], name= row[1], email= row[2], password= row[3], birth_date= row[4])
+            return user
         
+
+
+         
 
         
