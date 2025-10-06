@@ -93,6 +93,27 @@ class UserRepository():
             conn.commit()
             conn.close()
             return True
+
+    
+    def delete_user(self, user_id: int) -> bool:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        sql = """
+        DELETE FROM users WHERE id = ?
+        """
+
+        cursor.execute(sql, (user_id,))
+        row = cursor.rowcount
+        if row == 0:
+            conn.close()
+            return False
+        
+        conn.commit()
+        conn.close()
+        return True
+
+        
         
         
         
