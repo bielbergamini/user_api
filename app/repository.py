@@ -22,12 +22,16 @@ class UserRepository():
         try:
             cursor.execute(sql, (user.name, user.email, user.password, user.birth_date))
             conn.commit()
-            return True
+
+            user.id = cursor.lastrowid
+            return user
+        
         except sqlite3.IntegrityError:
             print(f"Error: user with email {user.email} already exists.")
             return False
         finally: 
             conn.close()
+            
 
         
     def get_all_users(self):

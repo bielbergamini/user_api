@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.include_router(user_router)
 
-repo.delete_user(2)
+
 
 
 
