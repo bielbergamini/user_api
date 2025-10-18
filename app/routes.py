@@ -35,6 +35,7 @@ def get_user_by_id(user_id: int, response: Response):
 
 
 
+
 @router.post("/users")
 def create_user(user: UserCreate, response: Response):
     new_user = User(name=user.name, email=user.email, password=user.password, birth_date=user.birth_date)
@@ -46,3 +47,23 @@ def create_user(user: UserCreate, response: Response):
     
     response.status_code = status.HTTP_400_BAD_REQUEST
     return {"message": "User already exist"}
+
+
+@router.put("/users/{user_id}")
+def update_user(user_id: int, user: UserCreate, response: Response):
+    user_to_update = User(
+        id=user_id,
+        name=user.name,
+        email=user.email,
+        password=user.password,
+        birth_date=user.birth_date
+    )
+
+    updated_user = repo.update_user(user_to_update)
+
+    if updated_user:
+        response.status_code = status.HTTP_200_OK
+        return {"message": "User updated successfully"}
+    
+    response.status_code = status.HTTP_404_NOT_FOUND
+    return {"message": "User not found"}
