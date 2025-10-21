@@ -67,3 +67,18 @@ def update_user(user_id: int, user: UserCreate, response: Response):
     
     response.status_code = status.HTTP_404_NOT_FOUND
     return {"message": "User not found"}
+
+
+
+@router.delete("/users/{user_id}")
+def delete_user(user_id: int, response: Response):
+
+    deleted_user = repo.delete_user(user_id)
+
+
+    if deleted_user:
+        response.status_code = status.HTTP_200_OK
+        return {"message": "User deleted successfully"}
+    
+    response.status_code = status.HTTP_404_NOT_FOUND
+    return {"message": "User not found"}
